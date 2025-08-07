@@ -1,0 +1,2 @@
+rootProject.name = 'microservices-final-banco'
+include 'api-gateway'

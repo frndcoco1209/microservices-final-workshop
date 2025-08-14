@@ -13,10 +13,15 @@ public class RouteConfig {
     @Value("${banks-service.id}") private String banksServiceId;
     @Value("${banks-service.path}") private String banksServicePath;
 
+    @Value("${accounts-service.url}") private String accountsServiceUrl;
+    @Value("${accounts-service.id}") private String accountsServiceId;
+    @Value("${accounts-service.path}") private String accountsServicePath;
+
     @Bean
     public RouteLocator createRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(banksServiceId, route -> route.path(banksServicePath).uri(banksServiceUrl))
+                .route(accountsServiceId, route -> route.path(accountsServicePath).uri(accountsServiceUrl))
                 .build();
     }
 }

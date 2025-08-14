@@ -24,7 +24,7 @@ public class BanksController {
     }
 
     @GetMapping("/{BankId}")
-    public Mono<Bank> getById(@PathVariable Long productId) {
-        return service.getById(productId);
+    public Mono<Bank> getById(@PathVariable Long BankId) {
+        return service.getById(BankId);
     }
 }

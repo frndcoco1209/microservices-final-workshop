@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS accounts(
+    account_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account_number VARCHAR(20) UNIQUE NOT NULL,
+    account_holder VARCHAR(150) NOT NULL,
+    account_type VARCHAR(15) NOT NULL,
+    balance DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS banks (
+    bank_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    address VARCHAR(150) NOT NULL,
+    phone INT NOT NULL,
+    account_id BIGINT NOT NULL,
+    FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
+);

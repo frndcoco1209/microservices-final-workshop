@@ -8,3 +8,5 @@ CREATE TABLE IF NOT EXISTS banks (
 
 INSERT INTO banks(name, country, address, phone)
 VALUES ('Davivienda', 'Colombia', 'Direccion Davivienda', 320);
+INSERT INTO banks(name, country, address, phone)
+VALUES ('Bancolombia', 'Colombia', 'Direccion Bancolombia', 330);

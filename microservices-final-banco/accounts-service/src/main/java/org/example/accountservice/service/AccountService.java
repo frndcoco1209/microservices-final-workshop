@@ -3,11 +3,13 @@ package org.example.accountservice.service;
 import org.example.accountservice.dto.AccountDTO;
 import org.example.accountservice.dto.AddBankDTO;
 import org.example.accountservice.dto.BankDTO;
+import org.example.accountservice.grpc.BankConsumer;
 import org.example.accountservice.model.Account;
 import org.example.accountservice.model.Bank;
 import org.example.accountservice.repository.IAccountRepository;
 import org.example.accountservice.repository.IBankRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -17,11 +19,17 @@ public class AccountService {
     private final IBankRepository bankRepository;
     private final IAccountRepository accountRepository;
     private final BankService bankService;
+    private final BankConsumer bankConsumer;
 
-    public AccountService(IBankRepository bankRepository, IAccountRepository accountRepository, BankService bankService) {
+    public AccountService(IBankRepository bankRepository, IAccountRepository accountRepository, BankService bankService, BankConsumer bankConsumer) {
         this.bankRepository = bankRepository;
         this.accountRepository = accountRepository;
         this.bankService = bankService;
+        this.bankConsumer = bankConsumer;
+    }
+
+    public Flux<Account> getAll() {
+        return accountRepository.findAll();
     }
 
     public Mono<Account> create(String number, String holder, String type, Integer balance) {
@@ -30,7 +38,7 @@ public class AccountService {
     }
 
     public Mono<AccountDTO> addAccount (AddBankDTO addBankDTO, String account_number){
-        return bankService.getBank(addBankDTO.getBankId())
+        return bankConsumer.getBank(addBankDTO.getBankId())
                 .flatMap(bank -> {
                     if (bank.getPhone() == null || addBankDTO.getPhone() == null) {
                         return Mono.error(new RuntimeException("faltan datos del banco"));
